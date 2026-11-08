@@ -1,0 +1,6 @@
+contracts/backend-openapi.json
+contracts/backend-websocket-v1.json
+src/api/generated/
+coverage/
+dist/
+node_modules/

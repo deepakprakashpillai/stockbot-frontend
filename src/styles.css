@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-sans);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  color-scheme: light;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary: #eef2f7;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  /* Compatibility token used by existing chart components. */
+  --text-muted: #64748b;
+  --accent: #f3f0ff;
+  --accent-foreground: #5b21b6;
+  --destructive: #b91c1c;
+  --destructive-foreground: #ffffff;
+  --border: #d7dee8;
+  --input: #d7dee8;
+  --ring: #7c3aed;
+  --brand: #8c52ff;
+  --brand-foreground: #ffffff;
+  --success: #15803d;
+  --success-foreground: #ffffff;
+  --warning: #b45309;
+  --danger: #b91c1c;
+  --surface: #ffffff;
+  --surface-subtle: #f1f5f9;
+  --radius: 0.625rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0b1220;
+  --foreground: #f8fafc;
+  --card: #111827;
+  --card-foreground: #f8fafc;
+  --popover: #111827;
+  --popover-foreground: #f8fafc;
+  --primary: #a78bfa;
+  --primary-foreground: #1e1b4b;
+  --secondary: #1e293b;
+  --secondary-foreground: #e2e8f0;
+  --muted: #1e293b;
+  --muted-foreground: #cbd5e1;
+  --text-muted: #cbd5e1;
+  --accent: #2e254c;
+  --accent-foreground: #e9ddff;
+  --destructive: #f87171;
+  --destructive-foreground: #450a0a;
+  --border: #334155;
+  --input: #475569;
+  --ring: #c4b5fd;
+  --brand: #a78bfa;
+  --brand-foreground: #1e1b4b;
+  --success: #4ade80;
+  --success-foreground: #052e16;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --surface: #111827;
+  --surface-subtle: #1e293b;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    background: var(--background);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  select {
+    min-height: 2.5rem;
+    appearance: none;
+    cursor: pointer;
+    border: 1px solid var(--input);
+    border-radius: calc(var(--radius) - 2px);
+    background-color: var(--surface);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.75'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    padding-right: 2.5rem !important;
+    color: var(--foreground);
+  }
+
+  select:hover:not(:disabled) {
+    border-color: var(--muted-foreground);
+  }
+
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--brand) 22%, transparent);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border: 2px solid var(--background);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+}
+
+@layer components {
+  .page-frame {
+    @apply mx-auto flex w-full max-w-[1600px] flex-col gap-6;
+  }
+
+  .page-card,
+  .glass,
+  .glass-card {
+    @apply rounded-xl border border-border bg-card text-card-foreground;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.12em] text-muted-foreground uppercase;
+  }
+
+  .notice {
+    @apply rounded-lg border px-4 py-3 text-sm leading-6;
+  }
+
+  .notice.warning {
+    @apply border-warning/35 bg-warning/10 text-foreground;
+  }
+
+  .notice.success {
+    @apply border-success/30 bg-success/10 text-foreground;
+  }
+
+  .notice.error {
+    @apply border-destructive/30 bg-destructive/10 text-foreground;
+  }
+
+  .upload-form {
+    @apply mt-6 grid gap-4;
+  }
+
+  .upload-form label {
+    @apply grid gap-2 text-sm font-medium text-foreground;
+  }
+
+  .upload-form input,
+  .field-control {
+    @apply h-10 w-full rounded-md border border-input bg-background px-3 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/20;
+  }
+
+  .upload-form button:not([data-slot="button"]) {
+    @apply inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .error-text {
+    @apply text-sm text-destructive;
+  }
+
+  .auth-gate {
+    @apply grid min-h-screen place-items-center bg-background px-4 py-8;
+  }
+}
+
+@layer utilities {
+  /* One panel radius across legacy headers, cards, tables, and chart frames. */
+  [class*="rounded-xl"],
+  [class*="rounded-2xl"] {
+    border-radius: var(--radius);
+  }
+
+  /* Product surfaces are flat; elevation is reserved for floating layers. */
+  [class~="shadow"],
+  [class*="shadow-"] {
+    box-shadow: none;
+  }
+
+  [class*="backdrop-blur"] {
+    backdrop-filter: none;
+  }
+
+  /* Existing routes may still carry translucent surface utilities. */
+  [class*="bg-surface/"] {
+    background-color: var(--surface);
+  }
+
+  [class*="bg-surface-subtle/"] {
+    background-color: var(--surface-subtle);
+  }
+
+  .elevation-floating {
+    box-shadow: 0 14px 32px rgb(15 23 42 / 18%);
+  }
+
+  /* Most prior `font-mono` use is user-facing data, not source code. */
+  .font-mono:not(pre):not(code) {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: normal;
+  }
+
+  /* Purple remains a non-text chart/selection accent on light surfaces. */
+  .text-brand {
+    color: var(--accent-foreground);
+  }
+
+  .hover\:text-brand:hover {
+    color: var(--accent-foreground);
+  }
+
+  /* Hover feedback must not make product cards or icons jump. */
+  [class*="hover:-translate-y"],
+  [class*="group-hover:translate"],
+  [class*="group-hover:scale"] {
+    transform: none;
+  }
+
+  /*
+   * Legacy screens used `text-muted` as a foreground colour before the app had
+   * semantic light/dark tokens. In the current system `muted` is a surface
+   * colour, so keep this bridge until those screens are rebuilt page by page.
+   */
+  .text-muted {
+    color: var(--muted-foreground);
+  }
+
+  /* `brand` is chart-only. Text actions use the accessible primary token. */
+  .bg-brand.text-white {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .hover\:bg-brand\/90:hover {
+    background-color: color-mix(in srgb, var(--primary) 90%, transparent);
+  }
+
+  .bg-success.text-white {
+    color: var(--success-foreground);
+  }
+
+  .bg-destructive.text-white {
+    color: var(--destructive-foreground);
+  }
+}
+
+.skip-link {
+  @apply fixed top-4 left-4 z-[9999] -translate-y-[180%] rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-transform focus:translate-y-0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
