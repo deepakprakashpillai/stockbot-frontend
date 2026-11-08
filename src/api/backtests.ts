@@ -150,9 +150,7 @@ export function listBacktests(
           dataset_version_id: filters.datasetVersionId || undefined,
           algorithm_key: filters.algorithmKey || undefined,
           algorithm_version_id: filters.algorithmVersionId || undefined,
-          // Every History record is a PLATFORM_DEMO record. Omitting this
-          // redundant value keeps this new endpoint compatible with an API
-          // process that is still being reloaded during a frontend rollout.
+          mode: filters.mode || undefined,
           start_date: filters.startDate || undefined,
           end_date: filters.endDate || undefined,
           created_from: filters.createdFrom || undefined,

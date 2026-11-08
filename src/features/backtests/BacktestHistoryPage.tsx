@@ -338,11 +338,13 @@ function RunPreview({ item }: { item: BacktestCatalogRun | undefined }) {
                 detail="Historical inputs evaluated"
               />
             </div>
-            {equity.data?.items.length ? (
+            {item.mode === "PLATFORM_DEMO" && equity.data?.items.length ? (
               <DemoEquityChart items={equity.data.items.slice(-100)} />
             ) : (
               <p className="rounded-lg bg-surface-subtle p-3 text-xs text-muted">
-                No durable synthetic equity points are available for this run.
+                {item.mode === "OPTION_SPREAD_SIMULATION"
+                  ? "Open the full result for the estimated INR equity view."
+                  : "No durable synthetic equity points are available for this run."}
               </p>
             )}
             {item.error_message && (
@@ -434,7 +436,7 @@ export function BacktestHistoryPage() {
     algorithmKey: params.get("algorithm") ?? "",
     createdFrom: params.get("from") ?? "",
     createdTo: params.get("to") ?? "",
-    mode: "PLATFORM_DEMO",
+    mode: params.get("mode") ?? "",
   }));
   const [draft, setDraft] = useState(initial);
   const [filters, setFilters] = useState(initial);
@@ -460,6 +462,7 @@ export function BacktestHistoryPage() {
     [catalog.data],
   );
   const selected = items.find((item) => item.id === selectedId) ?? items[0];
+  const selectedMode = items.find((item) => item.id === selectedIds[0])?.mode;
   useEffect(() => {
     if (!selectedId && items[0])
       setParams(
@@ -471,10 +474,12 @@ export function BacktestHistoryPage() {
       );
   }, [items, selectedId, setParams]);
   const apply = () => {
-    const next = { ...draft, mode: "PLATFORM_DEMO" };
+    const next = { ...draft };
     setFilters(next);
+    setSelectedIds([]);
     setParams(
       (current) => {
+        current.delete("run");
         const urlFilters: Array<[string, string | undefined]> = [
           ["q", next.runQuery],
           ["status", next.status],
@@ -482,6 +487,7 @@ export function BacktestHistoryPage() {
           ["algorithm", next.algorithmKey],
           ["from", next.createdFrom],
           ["to", next.createdTo],
+          ["mode", next.mode],
         ];
         for (const [key, value] of urlFilters) {
           if (value) current.set(key, String(value));
@@ -493,13 +499,15 @@ export function BacktestHistoryPage() {
     );
   };
   const toggle = (id: string) =>
-    setSelectedIds((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
+    setSelectedIds((current) => {
+      const item = items.find((entry) => entry.id === id);
+      if (!item || (selectedMode && item.mode !== selectedMode)) return current;
+      return current.includes(id)
+        ? current.filter((entry) => entry !== id)
         : current.length < 10
           ? [...current, id]
-          : current,
-    );
+          : current;
+    });
   return (
     <section className="mx-auto flex w-full max-w-[1800px] flex-col gap-5">
       <header className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-border bg-surface/80 px-5 py-4 shadow-sm">
@@ -546,6 +554,23 @@ export function BacktestHistoryPage() {
               className="w-full rounded-lg border border-border bg-surface py-2 pl-9 pr-3 text-sm text-foreground"
             />
           </label>
+          <AppSelect
+            value={draft.mode || "__all__"}
+            ariaLabel="Run mode filter"
+            placeholder="All run modes"
+            onValueChange={(value) =>
+              setDraft({ ...draft, mode: value === "__all__" ? "" : value })
+            }
+            className="w-auto min-w-[180px]"
+            options={[
+              { value: "__all__", label: "All run modes" },
+              { value: "PLATFORM_DEMO", label: "Platform demo" },
+              {
+                value: "OPTION_SPREAD_SIMULATION",
+                label: "Option spread research",
+              },
+            ]}
+          />
           <AppSelect
             value={draft.datasetId || "__all__"}
             ariaLabel="Dataset filter"
@@ -692,7 +717,10 @@ export function BacktestHistoryPage() {
                         type="checkbox"
                         checked={selectedIds.includes(item.id)}
                         disabled={
-                          item.status !== "COMPLETED" &&
+                          (item.status !== "COMPLETED" ||
+                            Boolean(
+                              selectedMode && item.mode !== selectedMode,
+                            )) &&
                           !selectedIds.includes(item.id)
                         }
                         onChange={() => toggle(item.id)}
@@ -754,8 +782,7 @@ export function BacktestHistoryPage() {
           </div>
           {!items.length && !catalog.isLoading && (
             <div className="p-12 text-center text-sm text-muted">
-              No runs match these filters. Clear a filter or start a new
-              platform-demo run.
+              No runs match these filters. Clear a filter or start a new run.
             </div>
           )}
           {catalog.hasNextPage && (
@@ -774,7 +801,9 @@ export function BacktestHistoryPage() {
         <div className="sticky bottom-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-brand/30 bg-surface px-4 py-3 shadow-xl">
           <div className="text-sm text-foreground">
             <Check className="mr-1 inline text-brand" size={15} />
-            <strong>{selectedIds.length}</strong> completed demo runs selected
+            <strong>{selectedIds.length}</strong> completed{" "}
+            {selectedMode === "PLATFORM_DEMO" ? "demo" : "option-spread"} runs
+            selected
           </div>
           <div className="flex gap-2">
             <button

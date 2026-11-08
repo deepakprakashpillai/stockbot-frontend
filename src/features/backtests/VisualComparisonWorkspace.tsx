@@ -64,10 +64,10 @@ const COLORS = [
 ];
 const DASHES = ["", "7 4", "2 3", "10 3 2 3", "5 2", "1 3"];
 
-function exact(value: unknown) {
+function exact(value: unknown, unit: string) {
   return value === undefined || value === null
     ? "Unavailable"
-    : `${String(value)} DEMO_UNITS`;
+    : `${String(value)} ${unit}`;
 }
 
 function displayTime(value: string | number) {
@@ -107,11 +107,13 @@ function ComparisonTooltip({
   label,
   runIds,
   data,
+  unit,
 }: {
   active?: boolean;
   label?: number;
   runIds: string[];
   data: Array<Record<string, number | string | undefined>>;
+  unit: string;
 }) {
   if (!active || label === undefined) return null;
   const row = data.find((item) => item.timestampValue === label);
@@ -125,7 +127,7 @@ function ComparisonTooltip({
             <dd className="m-0 font-mono text-foreground">
               {row?.[id] === undefined
                 ? "No point at this timestamp"
-                : exact(row[id])}
+                : exact(row[id], unit)}
             </dd>
           </div>
         ))}
@@ -138,10 +140,12 @@ function SeriesTable({
   title,
   rows,
   runIds,
+  unit,
 }: {
   title: string;
   rows: Array<Record<string, number | string | undefined>>;
   runIds: string[];
+  unit: string;
 }) {
   return (
     <div
@@ -183,7 +187,7 @@ function SeriesTable({
                     ? "No point"
                     : row.category
                       ? String(row[id])
-                      : exact(row[id])}
+                      : exact(row[id], unit)}
                 </td>
               ))}
             </tr>
@@ -313,8 +317,9 @@ export function VisualComparisonWorkspace({
             Synchronized comparison
           </h2>
           <p className="mb-0 mt-1 text-sm text-muted">
-            Exact persisted demo evidence only. Visuals do not rank runs or
-            imply financial performance.
+            {comparison.synthetic
+              ? "Exact persisted demo evidence only. Visuals do not imply financial performance."
+              : "Estimated INR historical evidence only. Visuals do not imply executable fills."}
           </p>
         </div>
         {!requested && (
@@ -590,6 +595,7 @@ export function VisualComparisonWorkspace({
                                 <ComparisonTooltip
                                   runIds={visibleRunIds}
                                   data={chartRows}
+                                  unit={comparison.unit}
                                 />
                               }
                             />
@@ -643,6 +649,7 @@ export function VisualComparisonWorkspace({
                                   <ComparisonTooltip
                                     runIds={[id]}
                                     data={chartRows}
+                                    unit={comparison.unit}
                                   />
                                 }
                               />
@@ -666,6 +673,7 @@ export function VisualComparisonWorkspace({
                 title={selectedMetric.label}
                 rows={isCategoryMetric ? rows : chartRows}
                 runIds={visibleRunIds}
+                unit={comparison.unit}
               />
               <div className="flex flex-wrap gap-2 text-xs text-muted">
                 {comparison.run_ids.map((id) => (

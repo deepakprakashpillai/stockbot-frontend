@@ -7,8 +7,9 @@ import {
   compareBacktests,
   getComparisonSeries,
   preflightComparison,
+  type Comparison,
 } from "../../api/backtests";
-import { ComparisonsPage } from "./ComparisonsPage";
+import { ComparisonResults, ComparisonsPage } from "./ComparisonsPage";
 
 const runA = "11111111-1111-4111-8111-111111111111";
 const runB = "22222222-2222-4222-8222-222222222222";
@@ -35,6 +36,35 @@ vi.mock("./BacktestCatalog", () => ({
 
 describe("ComparisonsPage", () => {
   afterEach(cleanup);
+
+  it("labels option comparisons as estimated INR rather than demo units", () => {
+    const comparison: Comparison = {
+      run_ids: [runA, runB],
+      mode: "OPTION_SPREAD_SIMULATION",
+      synthetic: false,
+      unit: "INR",
+      financial_pnl_available: true,
+      notice: "Historical option-close estimate.",
+      performance_comparable: true,
+      comparison_scope: "PERFORMANCE",
+      parameter_differences: {},
+      assumption_differences: {},
+      runs: [],
+    };
+    render(
+      <MemoryRouter>
+        <QueryClientProvider client={new QueryClient()}>
+          <ComparisonResults comparison={comparison} />
+        </QueryClientProvider>
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByText(/OPTION_SPREAD_SIMULATION comparison/),
+    ).toBeTruthy();
+    expect(screen.getByText(/2 runs · INR/)).toBeTruthy();
+    expect(screen.queryByText(/PLATFORM_DEMO comparison only/)).toBeNull();
+  });
 
   it("requires backend safety preflight and shows parameter differences without ranking a winner", async () => {
     vi.mocked(preflightComparison).mockResolvedValue({

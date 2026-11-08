@@ -149,7 +149,7 @@ export function ComparisonResults({ comparison }: { comparison: Comparison }) {
           aria-hidden="true"
         />
         <p className="m-0">
-          <strong>PLATFORM_DEMO comparison only.</strong> {comparison.notice}
+          <strong>{comparison.mode} comparison.</strong> {comparison.notice}
         </p>
       </div>
       <div className="flex flex-wrap items-end justify-between gap-3 px-1">
@@ -165,12 +165,14 @@ export function ComparisonResults({ comparison }: { comparison: Comparison }) {
           </h2>
         </div>
         <span className="rounded-full border border-border bg-surface px-3 py-1.5 font-mono text-xs text-muted">
-          {comparison.run_ids.length} runs · DEMO_UNITS
+          {comparison.run_ids.length} runs · {comparison.unit}
         </span>
       </div>
       <p className="m-0 text-sm text-muted">
-        Interpret regions and repeated behaviour—not a single “best” result.
-        These synthetic demo outcomes are not financial returns.
+        Interpret regions and repeated behaviour, not a single “best” result.
+        {comparison.synthetic
+          ? " These synthetic demo outcomes are not financial returns."
+          : " These are historical INR estimates, not executable option fills."}
       </p>
       <div
         className="overflow-x-auto rounded-xl border border-border bg-surface"
@@ -238,20 +240,27 @@ export function ComparisonResults({ comparison }: { comparison: Comparison }) {
       <VisualComparisonWorkspace comparison={comparison} />
       <section className="rounded-xl border border-border bg-surface p-4 sm:p-5">
         <h2 className="m-0 mb-1 text-sm font-bold tracking-wide text-foreground">
-          Synthetic activity comparison
+          {comparison.synthetic
+            ? "Synthetic activity comparison"
+            : "Estimated outcome comparison"}
         </h2>
         <p className="mb-4 text-xs text-muted">
-          Operational activity only; no financial interpretation or ranking.
+          {comparison.synthetic
+            ? "Operational activity only; no financial interpretation or ranking."
+            : "Estimated historical results only; compare like-for-like runs without ranking a strategy."}
         </p>
         <div
           className="overflow-x-auto rounded-lg border border-border"
           role="region"
-          aria-label="Scrollable synthetic metrics table"
+          aria-label="Scrollable comparison metrics table"
           tabIndex={0}
         >
           <table className="min-w-[680px] w-full text-left text-xs">
             <caption>
-              DEMO_UNITS where applicable · synthetic · non-financial
+              {comparison.unit} where applicable ·{" "}
+              {comparison.synthetic
+                ? "synthetic and non-financial"
+                : "historical estimate"}
             </caption>
             <thead>
               <tr>
@@ -347,14 +356,13 @@ export function ComparisonsPage() {
                   Research workspace
                 </p>
                 <h1 className="m-0 mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  Compare demo runs
+                  Compare runs
                 </h1>
               </div>
             </div>
             <p className="mb-0 mt-4 text-sm leading-6 text-muted">
-              Review reproducibility context and synthetic platform activity
-              side by side. This workspace never identifies a “best” strategy or
-              reports financial performance.
+              Review comparable run context and saved outcomes side by side. The
+              server checks mode, dataset, and coverage before comparison.
             </p>
           </div>
           <div className="rounded-xl border border-border bg-surface-subtle px-4 py-3 text-right">
@@ -362,7 +370,7 @@ export function ComparisonsPage() {
               Safety mode
             </p>
             <p className="m-0 mt-1 font-mono text-xs font-semibold text-foreground">
-              PLATFORM_DEMO · DEMO_UNITS
+              Server-checked mode and units
             </p>
           </div>
         </div>
@@ -431,8 +439,8 @@ export function ComparisonsPage() {
             </p>
           </div>
           <p className="mb-0 mt-2 text-xs leading-5 text-muted">
-            The server verifies dataset, range, completion and demo-only
-            compatibility before it permits a comparison.
+            The server verifies mode, dataset, range, and completion before it
+            permits a comparison.
           </p>
         </div>
       </section>

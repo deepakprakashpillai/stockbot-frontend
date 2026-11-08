@@ -40,12 +40,12 @@ export function ComparisonSlideover({
       <div className="space-y-5">
         <div className="rounded-xl border border-brand/25 bg-brand/5 p-4">
           <p className="m-0 text-[11px] font-bold uppercase tracking-[0.14em] text-brand">
-            PLATFORM_DEMO · DEMO_UNITS
+            Same-mode comparison
           </p>
           <p className="mb-0 mt-2 text-sm leading-6 text-muted">
-            This inspection compares reproducibility context and synthetic
-            platform activity only. It does not rank strategies or report
-            financial performance.
+            The server checks that selected runs have compatible mode, data, and
+            date ranges. Saved results keep their original units and
+            limitations.
           </p>
         </div>
         <div className="rounded-xl border border-border bg-surface-subtle p-4">
