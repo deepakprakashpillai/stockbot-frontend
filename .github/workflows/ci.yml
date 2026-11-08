@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -20,3 +23,12 @@ jobs:
       - run: pnpm test:coverage
       - run: pnpm contract:check
       - run: pnpm build
+
+  container-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build frontend image
+        run: docker build --tag stockbot-frontend:ci .
+      - name: Check the web server configuration
+        run: docker run --rm --entrypoint nginx stockbot-frontend:ci -t
