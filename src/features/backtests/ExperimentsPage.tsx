@@ -64,7 +64,9 @@ export function ExperimentsPage() {
     () =>
       versions.data?.items.filter(
         (item) =>
-          item.code_version === "1.2.0-bull-call-spread-v1" && !item.archived,
+          ["1.2.0-bull-call-spread-v1", "1.3.0-bull-call-spread-v1"].includes(
+            item.code_version,
+          ) && !item.archived,
       ) ?? [],
     [versions.data],
   );

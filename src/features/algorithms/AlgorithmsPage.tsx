@@ -698,9 +698,13 @@ export function AlgorithmsPage() {
                   <p className="mt-2 mb-0 text-sm text-muted-foreground">
                     {usesMandatoryPriceGates ? (
                       <>
-                        Require spot above both PDH and futures VWAP, then enter
-                        when RSI/VIX confirmation is at least{" "}
-                        {String(parameters.minimum_score ?? 3)} of{" "}
+                        Require spot above PDH and{" "}
+                        {algorithm?.fixed_rules.vwap_comparison_price ===
+                        "nifty_futures_close"
+                          ? "futures close"
+                          : "spot close"}{" "}
+                        above futures VWAP, then enter when RSI/VIX confirmation
+                        is at least {String(parameters.minimum_score ?? 3)} of{" "}
                         {maximumScore}.
                       </>
                     ) : (

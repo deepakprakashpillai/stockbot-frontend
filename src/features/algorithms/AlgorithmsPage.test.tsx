@@ -156,4 +156,30 @@ describe("AlgorithmsPage", () => {
       screen.getByRole("button", { name: "Save New Version" }),
     ).toBeDisabled();
   });
+
+  it.each([
+    ["nifty_futures_close", "futures close"],
+    ["nifty_spot_close", "spot close"],
+  ])(
+    "describes the catalog's VWAP comparison source %s",
+    async (source, label) => {
+      vi.mocked(listAlgorithms).mockResolvedValue({
+        items: [
+          {
+            ...algorithm,
+            fixed_rules: {
+              ...algorithm.fixed_rules,
+              vwap_comparison_price: source,
+            },
+          },
+        ],
+      });
+      renderPage();
+      expect(
+        await screen.findByText(
+          new RegExp(`Require spot above PDH and ${label} above futures VWAP`),
+        ),
+      ).toBeVisible();
+    },
+  );
 });
