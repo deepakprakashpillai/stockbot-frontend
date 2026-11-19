@@ -1,3 +1,4 @@
+import { ResearchGroupView } from "../model2/ResearchGroupView";
 import { useEffect, useMemo } from "react";
 import {
   useInfiniteQuery,
@@ -129,6 +130,26 @@ function MetricCard({ label, value }: { label: string; value: unknown }) {
 
 export function BacktestResultPage() {
   const { runId = "" } = useParams();
+  const run = useQuery({
+    queryKey: ["backtest", runId],
+    queryFn: () => getBacktest(runId),
+    enabled: Boolean(runId),
+    refetchOnMount: false,
+  });
+  if (run.data?.scenario_group_id)
+    return <ResearchGroupView groupId={run.data.scenario_group_id} />;
+  if (!run.data)
+    return (
+      <>
+        <p role="status">Loading run…</p>
+        <ErrorText error={run.error} />
+      </>
+    );
+  return <LegacyBacktestResultPage />;
+}
+
+function LegacyBacktestResultPage() {
+  const { runId = "" } = useParams();
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const comparisonReturn = searchParams.get("comparison_return");
@@ -240,6 +261,7 @@ export function BacktestResultPage() {
     queryKey: ["backtest", runId],
     queryFn: () => getBacktest(runId),
     enabled: Boolean(runId),
+    refetchOnMount: false,
     refetchInterval: (query) =>
       query.state.data &&
       !terminal.has(query.state.data.status) &&

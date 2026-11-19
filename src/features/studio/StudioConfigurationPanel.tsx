@@ -25,6 +25,8 @@ type Props = {
   algorithmDescription?: string | null;
   algorithmCodeVersion?: string | null;
   capital: string;
+  capitalLabel?: string;
+  capitalDescription?: string;
   onCapitalChange: (value: string) => void;
   showDatasetWarning: boolean;
   acknowledged: boolean;
@@ -133,7 +135,7 @@ export function StudioConfigurationPanel(props: Props) {
             03 · Run Context
           </legend>
           <label className="block min-w-0 text-sm font-medium text-muted">
-            Starting context
+            {props.capitalLabel ?? "Starting context"}
             <input
               type="number"
               min="0.01"
@@ -144,7 +146,8 @@ export function StudioConfigurationPanel(props: Props) {
             />
           </label>
           <p className="mb-0 mt-2 text-xs leading-5 text-muted-foreground">
-            Stored for reproducibility only. Never real capital.
+            {props.capitalDescription ??
+              "Stored for reproducibility only. Never real capital."}
           </p>
           {props.showDatasetWarning && (
             <label className="mt-3 flex items-center gap-2 text-xs font-medium text-warning">

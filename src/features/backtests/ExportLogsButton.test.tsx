@@ -85,13 +85,17 @@ describe("Export logs", () => {
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, "click")
       .mockImplementation(() => {});
-    view();
+    const rendered = view();
     fireEvent.click(screen.getByRole("button", { name: "Export logs" }));
     await waitFor(() => expect(click).toHaveBeenCalledTimes(1));
     expect(downloadCompleteExport).toHaveBeenCalledWith("job-1", "XLSX");
     expect(
       screen.getByRole("button", { name: "Download Excel" }),
     ).toBeEnabled();
+    await new Promise((resolve) => setTimeout(resolve, 1100));
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled();
+    rendered.unmount();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:logs");
   });
   it("shows worker failure and allows a new export", async () => {
     vi.mocked(getCompleteExport).mockResolvedValue({

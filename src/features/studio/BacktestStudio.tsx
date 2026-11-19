@@ -1,3 +1,5 @@
+import { Model2Studio } from "../model2/Model2Studio";
+import { ResearchGroupView } from "../model2/ResearchGroupView";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   useInfiniteQuery,
@@ -147,6 +149,29 @@ function ErrorText({ error }: { error: unknown }) {
 }
 
 export function BacktestStudio() {
+  const [params] = useSearchParams();
+  const algorithms = useQuery({
+    queryKey: ["algorithms", "studio"],
+    queryFn: listAlgorithms,
+  });
+  const runId = params.get("run");
+  const run = useQuery({
+    queryKey: ["backtest", runId],
+    queryFn: () => getBacktest(runId!),
+    enabled: Boolean(runId),
+  });
+  const selected = algorithms.data?.items.find(
+    (item) => item.key === params.get("algorithm"),
+  );
+  const groupId = params.get("researchGroup") ?? run.data?.scenario_group_id;
+  if (groupId) return <ResearchGroupView groupId={groupId} />;
+  if (selected?.execution_descriptor?.scenario_group_required)
+    return <Model2Studio key={selected.key} algorithmKey={selected.key} />;
+  if (runId && !run.data) return <p role="status">Loading run…</p>;
+  return <LegacyBacktestStudio />;
+}
+
+function LegacyBacktestStudio() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
   const runId = searchParams.get("run");
@@ -164,7 +189,9 @@ export function BacktestStudio() {
       writeRunExplorerState(current, { selection: { type, id } }),
     );
   const [datasetId, setDatasetId] = useState("");
-  const [algorithmKey, setAlgorithmKey] = useState("platform_demo");
+  const [algorithmKey, setAlgorithmKey] = useState(
+    searchParams.get("algorithm") ?? "platform_demo",
+  );
   const [algorithmVersionId, setAlgorithmVersionId] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -574,9 +601,14 @@ export function BacktestStudio() {
               value: item.key,
               label: item.display_name,
             }))}
-            onAlgorithmChange={(value) =>
-              changeInput(() => setAlgorithmKey(value))
-            }
+            onAlgorithmChange={(value) => {
+              if (
+                algorithms.data?.items.find((item) => item.key === value)
+                  ?.execution_descriptor?.scenario_group_required
+              )
+                setSearchParams({ algorithm: value });
+              else changeInput(() => setAlgorithmKey(value));
+            }}
             algorithmVersionId={algorithmVersionId}
             versionOptions={(versions.data?.items ?? [])
               .filter((item) => !item.archived)

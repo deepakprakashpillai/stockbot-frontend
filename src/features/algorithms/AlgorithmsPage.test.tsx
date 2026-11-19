@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -155,6 +155,31 @@ describe("AlgorithmsPage", () => {
     expect(
       screen.getByRole("button", { name: "Save New Version" }),
     ).toBeDisabled();
+  });
+
+  it("renders numeric Model 2 preset choices as selectable options", async () => {
+    vi.mocked(getAlgorithmSchema).mockResolvedValue({
+      algorithm_key: algorithm.key,
+      code_version: algorithm.code_version,
+      schema_version: 1,
+      schema_hash: "a".repeat(64),
+      schema: {
+        properties: {
+          wing_width_points: {
+            type: "integer",
+            enum: [150, 200],
+            default: 200,
+            title: "Wing width",
+          },
+        },
+      },
+    });
+    renderPage();
+    const select = await screen.findByRole("combobox", { name: "Wing width" });
+    fireEvent.keyDown(select, { key: "ArrowDown" });
+    const option = await screen.findByRole("option", { name: "150" });
+    fireEvent.click(option);
+    expect(select).toHaveTextContent("150");
   });
 
   it.each([

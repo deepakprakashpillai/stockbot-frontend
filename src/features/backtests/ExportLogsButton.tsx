@@ -15,6 +15,13 @@ export function ExportLogsButton({
   runId: string;
   format?: "XLSX" | "ZIP";
 }) {
+  const downloadUrl = useRef<string | null>(null);
+  useEffect(
+    () => () => {
+      if (downloadUrl.current) URL.revokeObjectURL(downloadUrl.current);
+    },
+    [],
+  );
   const started = useMutation({
     mutationFn: () => createCompleteExport(runId, format),
   });
@@ -31,14 +38,17 @@ export function ExportLogsButton({
   const download = useMutation({
     mutationFn: () => downloadCompleteExport(job.data!.id, format),
     onSuccess: ({ blob, filename }) => {
+      if (downloadUrl.current) URL.revokeObjectURL(downloadUrl.current);
       const url = URL.createObjectURL(blob);
+      // A browser's Save dialog can remain open before it consumes the blob.
+      // Keep at most one URL per button, until replacement or leaving the view.
+      downloadUrl.current = url;
       const link = document.createElement("a");
       link.href = url;
       link.download = filename;
       document.body.appendChild(link);
       link.click();
       link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
     },
   });
   const downloaded = useRef<string | null>(null);

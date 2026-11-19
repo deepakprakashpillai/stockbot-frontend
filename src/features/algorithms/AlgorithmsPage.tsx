@@ -41,7 +41,7 @@ type Property = {
   title?: string;
   type?: string;
   format?: string;
-  enum?: string[];
+  enum?: (string | number)[];
   default?: unknown;
   label?: string;
   help?: string;
@@ -271,6 +271,8 @@ export function AlgorithmsPage() {
       ),
     [validation.data],
   );
+  const portfolio =
+    algorithm?.execution_descriptor?.scenario_group_required === true;
   const maximumScore = [
     "pdh_weight",
     "vwap_weight",
@@ -360,7 +362,7 @@ export function AlgorithmsPage() {
             variant="outline"
             className="bg-brand/10 text-brand border-brand/20 uppercase tracking-widest text-[10px] font-bold mb-2"
           >
-            Bull Call Spread V1 · Immutable versions
+            {algorithm.display_name} · Immutable versions
           </Badge>
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground m-0 flex items-center gap-2">
             {algorithm.display_name}
@@ -422,8 +424,9 @@ export function AlgorithmsPage() {
 
               <div className="bg-warning/10 border border-warning/30 text-warning p-4 rounded-lg text-sm">
                 <strong>Estimated historical pricing.</strong> Option fills use
-                completed candle closes plus adverse slippage. They are not
-                executable bid/ask fills, and live trading remains disabled.
+                {portfolio ? "candle opens" : "completed candle closes"} plus
+                adverse slippage. They are not executable bid/ask fills, and
+                live trading remains disabled.
               </div>
 
               <dl className="grid grid-cols-2 gap-4 text-xs bg-surface/30 p-4 rounded-lg border border-border/50">
@@ -445,10 +448,12 @@ export function AlgorithmsPage() {
                 </div>
                 <div className="col-span-2">
                   <dt className="text-muted-foreground mb-1 uppercase tracking-wider font-semibold text-[10px]">
-                    RSI implementation
+                    {portfolio ? "Holding period" : "RSI implementation"}
                   </dt>
                   <dd className="font-medium text-foreground">
-                    Configurable Wilder/RMA using completed candles
+                    {portfolio
+                      ? algorithm.execution_descriptor?.holding_period
+                      : "Configurable Wilder/RMA using completed candles"}
                   </dd>
                 </div>
               </dl>
@@ -630,8 +635,8 @@ export function AlgorithmsPage() {
                                   change(key, property, value)
                                 }
                                 options={property.enum.map((value) => ({
-                                  value,
-                                  label: value,
+                                  value: String(value),
+                                  label: String(value),
                                 }))}
                                 placeholder="Choose a value…"
                                 ariaLabel={label}
@@ -696,27 +701,36 @@ export function AlgorithmsPage() {
                     Live rule summary
                   </h2>
                   <p className="mt-2 mb-0 text-sm text-muted-foreground">
-                    {usesMandatoryPriceGates ? (
-                      <>
-                        Require spot above PDH and{" "}
-                        {algorithm?.fixed_rules.vwap_comparison_price ===
-                        "nifty_futures_close"
-                          ? "futures close"
-                          : "spot close"}{" "}
-                        above futures VWAP, then enter when RSI/VIX confirmation
-                        is at least {String(parameters.minimum_score ?? 3)} of{" "}
-                        {maximumScore}.
-                      </>
+                    {portfolio ? (
+                      algorithm.documentation.logic_steps
+                        .map((step) => step.description)
+                        .join(" ")
                     ) : (
                       <>
-                        Enter when the completed-candle score is at least{" "}
-                        {String(parameters.minimum_score ?? 7)} of{" "}
-                        {maximumScore}.
+                        {usesMandatoryPriceGates ? (
+                          <>
+                            Require spot above PDH and{" "}
+                            {algorithm?.fixed_rules.vwap_comparison_price ===
+                            "nifty_futures_close"
+                              ? "futures close"
+                              : "spot close"}{" "}
+                            above futures VWAP, then enter when RSI/VIX
+                            confirmation is at least{" "}
+                            {String(parameters.minimum_score ?? 3)} of{" "}
+                            {maximumScore}.
+                          </>
+                        ) : (
+                          <>
+                            Enter when the completed-candle score is at least{" "}
+                            {String(parameters.minimum_score ?? 7)} of{" "}
+                            {maximumScore}.
+                          </>
+                        )}{" "}
+                        Buy ATM CE and sell the configured higher-strike CE. The
+                        system uses completed candles, Wilder RSI, blocks
+                        monthly expiry, and rejects missing pre-entry data.
                       </>
-                    )}{" "}
-                    Buy ATM CE and sell the configured higher-strike CE. The
-                    system uses completed candles, Wilder RSI, blocks monthly
-                    expiry, and rejects missing pre-entry data.
+                    )}
                   </p>
                 </section>
                 <section className="rounded-lg border border-border/60 bg-muted/20 p-4 text-sm">
@@ -724,10 +738,16 @@ export function AlgorithmsPage() {
                     Deferred data rules
                   </h2>
                   <p className="mt-2 mb-0 text-muted-foreground">
-                    Historical bid/ask quotes, liquidity thresholds, and the
-                    non-monthly event calendar are intentionally deferred.
-                    Results are labelled historical estimates, never executable
-                    fills.
+                    {portfolio ? (
+                      algorithm.documentation.limitations.join(" ")
+                    ) : (
+                      <>
+                        Historical bid/ask quotes, liquidity thresholds, and the
+                        non-monthly event calendar are intentionally deferred.
+                        Results are labelled historical estimates, never
+                        executable fills.
+                      </>
+                    )}
                   </p>
                 </section>
               </div>

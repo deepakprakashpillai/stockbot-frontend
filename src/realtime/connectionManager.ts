@@ -260,7 +260,7 @@ export class RealtimeConnectionManager {
     }
     if (!isRealtimeEvent(message)) return;
     const subscription = this.subscriptions.get(message.channel);
-    if (message.contract_version !== "1.2.0") {
+    if (message.contract_version !== contract.websocketVersion) {
       this.setState("degraded");
       if (subscription)
         this.deliver(subscription, {
@@ -374,3 +374,4 @@ export class RealtimeConnectionManager {
 }
 
 export const realtimeConnectionManager = new RealtimeConnectionManager();
+import contract from "../../contracts/backend-contract.json";

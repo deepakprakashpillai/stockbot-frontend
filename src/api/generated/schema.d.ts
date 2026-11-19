@@ -402,6 +402,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/backtests/{run_id}/assessment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Assessment */
+        get: operations["assessment_api_v1_backtests__run_id__assessment_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/backtests/{run_id}/attempts": {
         parameters: {
             query?: never;
@@ -430,6 +447,40 @@ export interface paths {
         put?: never;
         /** Cancel Backtest */
         post: operations["cancel_backtest_api_v1_backtests__run_id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backtests/{run_id}/cycles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Cycles */
+        get: operations["list_cycles_api_v1_backtests__run_id__cycles_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backtests/{run_id}/cycles/{cycle_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Cycle */
+        get: operations["get_cycle_api_v1_backtests__run_id__cycles__cycle_id__get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -606,6 +657,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/backtests/{run_id}/option-positions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Positions */
+        get: operations["list_positions_api_v1_backtests__run_id__option_positions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backtests/{run_id}/option-positions/{cycle_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Position */
+        get: operations["get_position_api_v1_backtests__run_id__option_positions__cycle_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backtests/{run_id}/portfolio-journal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Portfolio Journal */
+        get: operations["portfolio_journal_api_v1_backtests__run_id__portfolio_journal_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backtests/{run_id}/risk-ledger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Risk Ledger */
+        get: operations["risk_ledger_api_v1_backtests__run_id__risk_ledger_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/backtests/{run_id}/signals": {
         parameters: {
             query?: never;
@@ -737,6 +856,23 @@ export interface paths {
         put?: never;
         /** Commit Upload Session */
         post: operations["commit_upload_session_api_v1_dataset_upload_sessions__session_id__commit_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dataset-versions/{dataset_version_id}/model2-manifest": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Dataset Manifest */
+        get: operations["dataset_manifest_api_v1_dataset_versions__dataset_version_id__model2_manifest_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1019,6 +1155,92 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/research-scenario-groups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Groups */
+        get: operations["list_groups_api_v1_research_scenario_groups_get"];
+        put?: never;
+        /** Create Group */
+        post: operations["create_group_api_v1_research_scenario_groups_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/research-scenario-groups/preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preflight Group */
+        post: operations["preflight_group_api_v1_research_scenario_groups_preflight_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/research-scenario-groups/{group_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Group */
+        get: operations["get_group_api_v1_research_scenario_groups__group_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/research-scenario-groups/{group_id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel Group */
+        post: operations["cancel_group_api_v1_research_scenario_groups__group_id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/research-scenario-groups/{group_id}/comparison": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Group Comparison */
+        get: operations["group_comparison_api_v1_research_scenario_groups__group_id__comparison_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/system": {
         parameters: {
             query?: never;
@@ -1115,6 +1337,30 @@ export interface components {
             /** Safety Notice */
             safety_notice: string;
         };
+        /** AlgorithmExecutionDescriptor */
+        AlgorithmExecutionDescriptor: {
+            /** Capital Usage */
+            capital_usage?: string | null;
+            /** Executable Quotes */
+            executable_quotes: boolean;
+            /** Holding Period */
+            holding_period: string;
+            /** Leg Count */
+            leg_count: number;
+            /**
+             * Live Trading Approved
+             * @default false
+             */
+            live_trading_approved: boolean;
+            /** Mode */
+            mode: string;
+            /** Pricing Quality */
+            pricing_quality: string;
+            /** Result Path */
+            result_path: string;
+            /** Scenario Group Required */
+            scenario_group_required: boolean;
+        };
         /** AlgorithmListResponse */
         AlgorithmListResponse: {
             /** Items */
@@ -1154,6 +1400,7 @@ export interface components {
             /** Display Name */
             display_name: string;
             documentation: components["schemas"]["AlgorithmDocumentationResponse"];
+            execution_descriptor?: components["schemas"]["AlgorithmExecutionDescriptor"] | null;
             /** Fixed Rules */
             fixed_rules: {
                 [key: string]: unknown;
@@ -1800,11 +2047,15 @@ export interface components {
              * @enum {string}
              */
             coverage_status: "COMPLETE" | "PARTIAL" | "BLOCKED";
+            /** Cycles */
+            cycles?: components["schemas"]["Model2CycleCoverageResponse"][];
             /**
              * Dataset Version Id
              * Format: uuid
              */
             dataset_version_id: string;
+            /** Entry Ready Cycle Count */
+            entry_ready_cycle_count?: number | null;
             /** Estimated Row Count */
             estimated_row_count: number;
             /**
@@ -1827,6 +2078,8 @@ export interface components {
             missing_capabilities: string[];
             /** Mode */
             mode: string;
+            /** Requested Cycle Count */
+            requested_cycle_count?: number | null;
             /**
              * Requested End Date
              * Format: date
@@ -1918,6 +2171,10 @@ export interface components {
             pricing_quality?: string | null;
             /** Progress */
             progress: number;
+            /** Scenario Group Id */
+            scenario_group_id?: string | null;
+            /** Scenario Policy */
+            scenario_policy?: string | null;
             /** Snapshot */
             snapshot: {
                 [key: string]: unknown;
@@ -3337,6 +3594,354 @@ export interface components {
             /** Principal */
             principal?: string | null;
         };
+        /** Model2AssessmentResponse */
+        Model2AssessmentResponse: {
+            /** Criteria */
+            criteria: {
+                [key: string]: unknown;
+            }[];
+            /** Limitations */
+            limitations: string[];
+            /** Overall Status */
+            overall_status: string;
+            /** Policy Version */
+            policy_version: string;
+            /** Priced Statistics */
+            priced_statistics: {
+                [key: string]: unknown;
+            };
+            /** Reliability */
+            reliability: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Run Id
+             * Format: uuid
+             */
+            run_id: string;
+            /** Run Status */
+            run_status: string;
+            /** Scope */
+            scope: string;
+            /** Summary */
+            summary: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** Model2CycleCoverageResponse */
+        Model2CycleCoverageResponse: {
+            /** Classification */
+            classification: string;
+            /** Entry Data Available */
+            entry_data_available: boolean;
+            /**
+             * Entry Date
+             * Format: date
+             */
+            entry_date: string;
+            entry_estimate: components["schemas"]["Model2EntryEstimateResponse"] | null;
+            /**
+             * Expiry
+             * Format: date
+             */
+            expiry: string;
+            /** Reason */
+            reason: string | null;
+        };
+        /** Model2CycleListResponse */
+        Model2CycleListResponse: {
+            /** Active Attempt Id */
+            active_attempt_id: string | null;
+            /** Items */
+            items: components["schemas"]["Model2CycleResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+        };
+        /** Model2CycleResponse */
+        Model2CycleResponse: {
+            /**
+             * Attempt Id
+             * Format: uuid
+             */
+            attempt_id: string;
+            /**
+             * Entry Date
+             * Format: date
+             */
+            entry_date: string;
+            /**
+             * Expiry
+             * Format: date
+             */
+            expiry: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Last Sequence */
+            last_sequence: number;
+            /** Payload */
+            payload: {
+                [key: string]: unknown;
+            };
+            /** Reason */
+            reason: string | null;
+            /**
+             * Run Id
+             * Format: uuid
+             */
+            run_id: string;
+            /** State */
+            state: string;
+            /** Trade Id */
+            trade_id: string | null;
+        };
+        /** Model2DatasetManifestResponse */
+        Model2DatasetManifestResponse: {
+            /** Bundle Checksum */
+            bundle_checksum: string;
+            /** Calendar Sha256 */
+            calendar_sha256: string;
+            /** Calendar Version */
+            calendar_version: string;
+            /** Components */
+            components: {
+                [key: string]: unknown;
+            }[];
+            /**
+             * Dataset Version Id
+             * Format: uuid
+             */
+            dataset_version_id: string;
+            /** Halt Source Available */
+            halt_source_available: boolean;
+            /** Input Checksum */
+            input_checksum: string;
+            /** Limitations */
+            limitations: string[];
+            /** Official Settlement Available */
+            official_settlement_available: boolean;
+        };
+        /** Model2EntryEstimateResponse */
+        Model2EntryEstimateResponse: {
+            /** Assumed Margin Inr */
+            assumed_margin_inr: string | null;
+            /** Credit Points */
+            credit_points: string;
+            /**
+             * Margin Source
+             * @default ASSUMED
+             * @constant
+             */
+            margin_source: "ASSUMED";
+            /** Maximum Loss Inr */
+            maximum_loss_inr: string | null;
+        };
+        /** Model2JournalEventResponse */
+        Model2JournalEventResponse: {
+            /**
+             * Attempt Id
+             * Format: uuid
+             */
+            attempt_id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Event Type */
+            event_type: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Payload */
+            payload: {
+                [key: string]: unknown;
+            };
+            /** Position State */
+            position_state: string | null;
+            /**
+             * Run Id
+             * Format: uuid
+             */
+            run_id: string;
+            /** Sequence */
+            sequence: number;
+            /**
+             * Session Date
+             * Format: date
+             */
+            session_date: string;
+            /** Signal Sequence */
+            signal_sequence: number | null;
+            /**
+             * Timestamp
+             * Format: date-time
+             */
+            timestamp: string;
+            /** Trade Sequence */
+            trade_sequence: number | null;
+        };
+        /** Model2JournalListResponse */
+        Model2JournalListResponse: {
+            /** Attempt Id */
+            attempt_id: string | null;
+            /** Items */
+            items: components["schemas"]["Model2JournalEventResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+            /**
+             * Run Id
+             * Format: uuid
+             */
+            run_id: string;
+        };
+        /** Model2RiskEntryResponse */
+        Model2RiskEntryResponse: {
+            /**
+             * Booking Date
+             * Format: date
+             */
+            booking_date: string;
+            /** Counters */
+            counters: {
+                [key: string]: unknown;
+            };
+            /**
+             * Cycle Id
+             * Format: uuid
+             */
+            cycle_id: string;
+            /** Priced Performance Amount */
+            priced_performance_amount: string | null;
+            /** Risk Amount */
+            risk_amount: string | null;
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "PRICED_RESULT" | "ASSUMED_MAX_LOSS" | "ASSUMED_ZERO" | "HALTED_AT_EXCLUSION";
+        };
+        /** Model2RiskLedgerResponse */
+        Model2RiskLedgerResponse: {
+            /** Active Attempt Id */
+            active_attempt_id: string | null;
+            /** Items */
+            items: components["schemas"]["Model2RiskEntryResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+        };
+        /** OptionLegResponse */
+        OptionLegResponse: {
+            /** Contract Id */
+            contract_id: string;
+            /** Entry Fill Price */
+            entry_fill_price: string;
+            /** Entry Reference Price */
+            entry_reference_price: string;
+            /** Exit Fill Price */
+            exit_fill_price: string | null;
+            /**
+             * Expiry
+             * Format: date
+             */
+            expiry: string;
+            /** Gross Pnl Inr */
+            gross_pnl_inr?: string | null;
+            /** Lot Size */
+            lot_size: number;
+            /**
+             * Option Type
+             * @enum {string}
+             */
+            option_type: "CE" | "PE";
+            /** Quantity */
+            quantity: number;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "SHORT_CALL" | "LONG_CALL" | "SHORT_PUT" | "LONG_PUT";
+            /**
+             * Side
+             * @enum {string}
+             */
+            side: "BUY" | "SELL";
+            /** Strike */
+            strike: number;
+            /** Symbol */
+            symbol: string;
+            /** Tick Size */
+            tick_size: string;
+        };
+        /** OptionPositionListResponse */
+        OptionPositionListResponse: {
+            /** Active Attempt Id */
+            active_attempt_id: string | null;
+            /** Items */
+            items: components["schemas"]["OptionPositionResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+        };
+        /** OptionPositionResponse */
+        OptionPositionResponse: {
+            /** Assumed Margin Inr */
+            assumed_margin_inr: string | null;
+            /** Charges Inr */
+            charges_inr: string;
+            /**
+             * Entry At
+             * Format: date-time
+             */
+            entry_at: string;
+            /** Entry Credit Points */
+            entry_credit_points: string;
+            /** Exit At */
+            exit_at: string | null;
+            /**
+             * Expiry
+             * Format: date
+             */
+            expiry: string;
+            /** Finalized At */
+            finalized_at: string | null;
+            /** Flags */
+            flags: string[];
+            /** Gross Pnl Inr */
+            gross_pnl_inr: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Legs */
+            legs: components["schemas"]["OptionLegResponse"][];
+            /**
+             * Margin Source
+             * @default ASSUMED
+             * @constant
+             */
+            margin_source: "ASSUMED";
+            /** Maximum Loss Inr */
+            maximum_loss_inr: string | null;
+            /** Net Pnl Inr */
+            net_pnl_inr: string | null;
+            /** Original Trigger */
+            original_trigger: {
+                [key: string]: unknown;
+            } | null;
+            /** Priced Performance Included */
+            priced_performance_included: boolean;
+            /** Reason */
+            reason: string | null;
+            /** State */
+            state: string;
+            /** Trade Id */
+            trade_id: string | null;
+        };
         /** ParameterSchemaResponse */
         ParameterSchemaResponse: {
             /** Algorithm Key */
@@ -3486,6 +4091,40 @@ export interface components {
              * @default DEMO_UNITS
              */
             unit: string;
+        };
+        /** ResearchScenarioGroupListResponse */
+        ResearchScenarioGroupListResponse: {
+            /** Items */
+            items: components["schemas"]["ResearchScenarioGroupResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+        };
+        /** ResearchScenarioGroupResponse */
+        ResearchScenarioGroupResponse: {
+            /** Cancellation Requested */
+            cancellation_requested: boolean;
+            /** Completed At */
+            completed_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Members */
+            members: components["schemas"]["ScenarioMemberResponse"][];
+            /** Request Digest */
+            request_digest: string;
+            /** Snapshot */
+            snapshot: {
+                [key: string]: unknown;
+            };
+            /** Status */
+            status: string;
         };
         /** RunAnalyticsSummaryResponse */
         RunAnalyticsSummaryResponse: {
@@ -3637,6 +4276,81 @@ export interface components {
             unit: string;
             /** Wins */
             wins: number;
+        };
+        /** ScenarioComparisonCycleResponse */
+        ScenarioComparisonCycleResponse: {
+            /**
+             * Expiry
+             * Format: date
+             */
+            expiry: string;
+            /** Outcomes */
+            outcomes: components["schemas"]["ScenarioComparisonOutcomeResponse"][];
+        };
+        /** ScenarioComparisonOutcomeResponse */
+        ScenarioComparisonOutcomeResponse: {
+            /** Cycle Id */
+            cycle_id: string | null;
+            /**
+             * Policy
+             * @enum {string}
+             */
+            policy: "MAX_LOSS_RISK" | "ZERO_RISK" | "HALT_AT_FIRST_EXCLUSION";
+            /** Priced Net Pnl Inr */
+            priced_net_pnl_inr: string | null;
+            /** Reason */
+            reason: string | null;
+            /** Risk Contribution */
+            risk_contribution: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Run Id
+             * Format: uuid
+             */
+            run_id: string;
+            /** Scope */
+            scope: string | null;
+            /** State */
+            state: string;
+        };
+        /** ScenarioCycleComparisonResponse */
+        ScenarioCycleComparisonResponse: {
+            /**
+             * Group Id
+             * Format: uuid
+             */
+            group_id: string;
+            /** Items */
+            items: components["schemas"]["ScenarioComparisonCycleResponse"][];
+            /** Next Cursor */
+            next_cursor: string | null;
+            /**
+             * Scenario Populations Are Independent
+             * @default true
+             */
+            scenario_populations_are_independent: boolean;
+        };
+        /** ScenarioMemberResponse */
+        ScenarioMemberResponse: {
+            /** Excluded Cycle Count */
+            excluded_cycle_count?: number | null;
+            /** Ordinal */
+            ordinal: number;
+            /**
+             * Policy
+             * @enum {string}
+             */
+            policy: "MAX_LOSS_RISK" | "ZERO_RISK" | "HALT_AT_FIRST_EXCLUSION";
+            /** Priced Cycle Count */
+            priced_cycle_count?: number | null;
+            /** Primary */
+            primary: boolean;
+            /** Reliability Status */
+            reliability_status?: string | null;
+            run: components["schemas"]["BacktestRunResponse"];
+            /** Scope */
+            scope?: string | null;
         };
         /** SignalDecisionDetailResponse */
         SignalDecisionDetailResponse: {
@@ -5245,6 +5959,55 @@ export interface operations {
             };
         };
     };
+    assessment_api_v1_backtests__run_id__assessment_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2AssessmentResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     list_execution_attempts_api_v1_backtests__run_id__attempts_get: {
         parameters: {
             query?: never;
@@ -5312,6 +6075,108 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BacktestRunResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_cycles_api_v1_backtests__run_id__cycles_get: {
+        parameters: {
+            query?: {
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2CycleListResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_cycle_api_v1_backtests__run_id__cycles__cycle_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+                cycle_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2CycleResponse"];
                 };
             };
             /** @description Resource not found. */
@@ -5871,6 +6736,213 @@ export interface operations {
             };
         };
     };
+    list_positions_api_v1_backtests__run_id__option_positions_get: {
+        parameters: {
+            query?: {
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptionPositionListResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_position_api_v1_backtests__run_id__option_positions__cycle_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+                cycle_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OptionPositionResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    portfolio_journal_api_v1_backtests__run_id__portfolio_journal_get: {
+        parameters: {
+            query?: {
+                attempt_id?: string | null;
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2JournalListResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    risk_ledger_api_v1_backtests__run_id__risk_ledger_get: {
+        parameters: {
+            query?: {
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2RiskLedgerResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     list_signals_api_v1_backtests__run_id__signals_get: {
         parameters: {
             query?: {
@@ -6308,6 +7380,55 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DatasetUploadResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    dataset_manifest_api_v1_dataset_versions__dataset_version_id__model2_manifest_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_version_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Model2DatasetManifestResponse"];
                 };
             };
             /** @description Resource not found. */
@@ -7169,6 +8290,310 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["WebSocketTicketResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    list_groups_api_v1_research_scenario_groups_get: {
+        parameters: {
+            query?: {
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResearchScenarioGroupListResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_group_api_v1_research_scenario_groups_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BacktestCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResearchScenarioGroupResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    preflight_group_api_v1_research_scenario_groups_preflight_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BacktestPreflightRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BacktestPreflightResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_group_api_v1_research_scenario_groups__group_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                group_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResearchScenarioGroupResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    cancel_group_api_v1_research_scenario_groups__group_id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                group_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResearchScenarioGroupResponse"];
+                };
+            };
+            /** @description Resource not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request validation failed. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unexpected server error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    group_comparison_api_v1_research_scenario_groups__group_id__comparison_get: {
+        parameters: {
+            query?: {
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                group_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioCycleComparisonResponse"];
                 };
             };
             /** @description Resource not found. */
