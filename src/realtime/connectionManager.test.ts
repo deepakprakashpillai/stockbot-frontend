@@ -96,7 +96,7 @@ describe("RealtimeConnectionManager", () => {
     const first = FakeSocket.instances[0];
     first.open();
     const event = {
-      contract_version: "1.2.0",
+      contract_version: "1.3.0",
       event_id: "event-1",
       sequence: 7,
       type: "backtest.progress",
@@ -130,6 +130,19 @@ describe("RealtimeConnectionManager", () => {
     });
     second.receive({ ...event, event_id: "event-2", sequence: 10 });
     expect(handler).toHaveBeenCalledTimes(3);
+    second.receive({
+      ...event,
+      type: "backtest.portfolio_updated",
+      event_id: "portfolio-1",
+      sequence: 11,
+    });
+    expect(handler).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        type: "backtest.portfolio_updated",
+        sequence: 11,
+      }),
+    );
+    expect(manager.connectionState).toBe("connected");
     stop();
   });
 

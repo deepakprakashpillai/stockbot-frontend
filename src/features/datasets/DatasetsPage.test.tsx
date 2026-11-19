@@ -1,5 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -11,6 +17,25 @@ import {
   listDatasets,
 } from "../../api/datasets";
 import { DatasetsPage } from "./DatasetsPage";
+import {
+  listAlgorithms,
+  listAlgorithmVersions,
+  getAlgorithmSchema,
+  validateAlgorithm,
+  saveAlgorithmVersion,
+} from "../../api/algorithms";
+
+vi.mock("../../api/algorithms", () => ({
+  listAlgorithms: vi.fn(),
+  listAlgorithmVersions: vi.fn(),
+  getAlgorithmSchema: vi.fn(),
+  validateAlgorithm: vi.fn(),
+  saveAlgorithmVersion: vi.fn(),
+  archiveAlgorithmVersion: vi.fn(),
+  getAlgorithm: vi.fn(),
+  getAlgorithmUsage: vi.fn(),
+  checkCompatibility: vi.fn(),
+}));
 
 vi.mock("../../api/datasets", () => ({
   getDataset: vi.fn(),
@@ -184,4 +209,153 @@ describe("DatasetsPage", () => {
       await screen.findByRole("button", { name: /Commit immutable dataset/i }),
     ).toBeVisible();
   });
+});
+
+it("saves Model 2 numeric choices and a real boolean through the Library editor", async () => {
+  const parameters = {
+    wing_width_points: 200,
+    slippage_percent: 2,
+    vix_state_filter_enabled: false,
+  };
+  vi.mocked(listAlgorithms).mockResolvedValue({
+    items: [
+      {
+        key: "model2",
+        display_name: "Model 2",
+        description: "Four-leg historical research",
+        code_version: "1-model2",
+        schema_version: 1,
+        active: true,
+        supported_modes: ["OPTION_PORTFOLIO_SIMULATION"],
+        required_capabilities: ["model2_bundle_v3"],
+        fixed_rules: {},
+        templates: [
+          {
+            key: "primary_200",
+            name: "Primary 200",
+            description: "Approved research preset",
+            experimental: false,
+            parameters,
+          },
+        ],
+        documentation: {
+          purpose: "Historical research",
+          lifecycle_status: "approved_historical_research",
+          safety_notice: "Historical only",
+          limitations: [],
+          inputs: [],
+          logic_steps: [],
+          outputs: [],
+          diagnostic_schema_version: "1",
+          rule_register_version: "1",
+          rules: [],
+        },
+      },
+    ],
+  });
+  vi.mocked(listAlgorithmVersions).mockResolvedValue({ items: [] });
+  vi.mocked(getAlgorithmSchema).mockResolvedValue({
+    algorithm_key: "model2",
+    code_version: "1-model2",
+    schema_version: 1,
+    schema_hash: "a".repeat(64),
+    schema: {
+      properties: {
+        wing_width_points: {
+          title: "Wing width",
+          type: "integer",
+          enum: [150, 200],
+        },
+        slippage_percent: {
+          title: "Slippage percent",
+          type: "integer",
+          enum: [0, 1, 2],
+        },
+        vix_state_filter_enabled: {
+          title: "Experimental VIX filter",
+          type: "boolean",
+        },
+      },
+    },
+  });
+  vi.mocked(validateAlgorithm).mockResolvedValue({
+    valid: true,
+    normalized_parameters: null,
+    errors: [],
+  });
+  vi.mocked(saveAlgorithmVersion).mockImplementation(async (key, input) => ({
+    id: "saved-model2",
+    algorithm_key: key,
+    version_number: 3,
+    name: input.name,
+    notes: input.notes ?? null,
+    parent_version_id: null,
+    parameters: input.parameters,
+    code_version: "1-model2",
+    schema_version: 1,
+    creator_context: {},
+    created_at: "2026-11-17T00:00:00Z",
+    archived: false,
+    archived_at: null,
+  }));
+  vi.mocked(listDatasets).mockResolvedValue({
+    items: [],
+    total_count: 0,
+    next_cursor: null,
+  });
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  render(
+    <QueryClientProvider client={client}>
+      <MemoryRouter
+        initialEntries={[
+          "/library?tab=algorithms&algorithm=model2&newVersion=1",
+        ]}
+      >
+        <DatasetsPage />
+      </MemoryRouter>
+    </QueryClientProvider>,
+  );
+  const template = await screen.findByRole("combobox", { name: "Template" });
+  fireEvent.keyDown(template, { key: "ArrowDown" });
+  fireEvent.click(await screen.findByRole("option", { name: "Primary 200" }));
+  const width = screen.getByRole("combobox", { name: "Wing width" });
+  fireEvent.keyDown(width, { key: "ArrowDown" });
+  fireEvent.click(await screen.findByRole("option", { name: "150" }));
+  const filter = screen.getByRole("checkbox", {
+    name: "Experimental VIX filter",
+  });
+  expect(filter).not.toBeChecked();
+  fireEvent.click(filter);
+  fireEvent.click(screen.getByRole("button", { name: "Validate" }));
+  await waitFor(() =>
+    expect(validateAlgorithm).toHaveBeenCalledWith("model2", {
+      wing_width_points: 150,
+      slippage_percent: 2,
+      vix_state_filter_enabled: true,
+    }),
+  );
+  const save = screen.getByRole("button", {
+    name: "Save as new immutable version",
+  });
+  await waitFor(() => expect(save).toBeEnabled());
+  fireEvent.click(filter);
+  expect(save).toBeDisabled();
+  fireEvent.click(screen.getByRole("button", { name: "Validate" }));
+  await waitFor(() => expect(save).toBeEnabled());
+  fireEvent.click(save);
+  await waitFor(() =>
+    expect(saveAlgorithmVersion).toHaveBeenCalledWith(
+      "model2",
+      expect.objectContaining({
+        parameters: {
+          wing_width_points: 150,
+          slippage_percent: 2,
+          vix_state_filter_enabled: false,
+        },
+      }),
+    ),
+  );
+  cleanup();
 });

@@ -313,9 +313,7 @@ function RunPreview({ item }: { item: BacktestCatalogRun | undefined }) {
               />
               <Kpi
                 label={
-                  item.mode === "OPTION_SPREAD_SIMULATION"
-                    ? "Executed trades"
-                    : "Synthetic trades"
+                  item.unit === "INR" ? "Executed trades" : "Synthetic trades"
                 }
                 value={String(
                   metric.total_trades ??
@@ -323,9 +321,7 @@ function RunPreview({ item }: { item: BacktestCatalogRun | undefined }) {
                     "—",
                 )}
                 detail={
-                  item.mode === "OPTION_SPREAD_SIMULATION"
-                    ? "Indian Rupees (₹)"
-                    : "DEMO_UNITS only"
+                  item.unit === "INR" ? "Indian Rupees (₹)" : "DEMO_UNITS only"
                 }
               />
               <Kpi
@@ -342,7 +338,7 @@ function RunPreview({ item }: { item: BacktestCatalogRun | undefined }) {
               <DemoEquityChart items={equity.data.items.slice(-100)} />
             ) : (
               <p className="rounded-lg bg-surface-subtle p-3 text-xs text-muted">
-                {item.mode === "OPTION_SPREAD_SIMULATION"
+                {item.unit === "INR"
                   ? "Open the full result for the estimated INR equity view."
                   : "No durable synthetic equity points are available for this run."}
               </p>
@@ -519,8 +515,9 @@ export function BacktestHistoryPage() {
             Run history
           </h1>
           <p className="m-0 mt-1 text-sm text-muted">
-            Audit platform execution, inspect immutable context, and compose
-            guarded comparisons.
+            Inspect research requests and their saved evidence. Model 2 shows
+            one primary result per request; open it to compare all three
+            scenarios.
           </p>
         </div>
         <div className="flex gap-2">
@@ -565,6 +562,10 @@ export function BacktestHistoryPage() {
             options={[
               { value: "__all__", label: "All run modes" },
               { value: "PLATFORM_DEMO", label: "Platform demo" },
+              {
+                value: "OPTION_PORTFOLIO_SIMULATION",
+                label: "Model 2 · primary scenario",
+              },
               {
                 value: "OPTION_SPREAD_SIMULATION",
                 label: "Option spread research",
@@ -718,6 +719,7 @@ export function BacktestHistoryPage() {
                         checked={selectedIds.includes(item.id)}
                         disabled={
                           (item.status !== "COMPLETED" ||
+                            item.mode === "OPTION_PORTFOLIO_SIMULATION" ||
                             Boolean(
                               selectedMode && item.mode !== selectedMode,
                             )) &&

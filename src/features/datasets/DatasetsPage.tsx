@@ -62,9 +62,10 @@ type Property = {
   label?: string;
   type?: string;
   format?: string;
-  enum?: string[];
+  enum?: (string | number)[];
   default?: unknown;
   help?: string;
+  description?: string;
   minimum?: number;
   maximum?: number;
   experimental?: boolean;
@@ -854,6 +855,11 @@ function AlgorithmEditor({
     }
     validation.reset();
   };
+  const changeParameter = (key: string, value: unknown) => {
+    setParameters((current) => ({ ...current, [key]: value }));
+    validation.reset();
+    save.reset();
+  };
   return (
     <Slideover
       isOpen={isOpen}
@@ -889,18 +895,27 @@ function AlgorithmEditor({
           {Object.entries(schema ?? {}).map(([key, property]) => (
             <label key={key} className="text-sm text-muted">
               {property.label ?? property.title ?? key}
-              {property.enum ? (
+              {property.type === "boolean" ? (
+                <input
+                  type="checkbox"
+                  className="ml-3"
+                  checked={parameters[key] === true}
+                  onChange={(event) =>
+                    changeParameter(key, event.target.checked)
+                  }
+                />
+              ) : property.enum ? (
                 <AppSelect
                   value={String(parameters[key] ?? "")}
                   onValueChange={(value) =>
-                    setParameters((current) => ({
-                      ...current,
-                      [key]: value,
-                    }))
+                    changeParameter(
+                      key,
+                      property.enum!.find((item) => String(item) === value),
+                    )
                   }
                   options={property.enum.map((value) => ({
-                    value,
-                    label: value,
+                    value: String(value),
+                    label: String(value),
                   }))}
                   placeholder="Choose a value…"
                   ariaLabel={property.label ?? property.title ?? key}
@@ -920,21 +935,22 @@ function AlgorithmEditor({
                   max={property.maximum}
                   value={String(parameters[key] ?? property.default ?? "")}
                   onChange={(event) =>
-                    setParameters((current) => ({
-                      ...current,
-                      [key]:
-                        property.type === "integer"
-                          ? Number.parseInt(event.target.value, 10)
-                          : property.type === "number"
-                            ? Number(event.target.value)
-                            : event.target.value,
-                    }))
+                    changeParameter(
+                      key,
+                      property.type === "integer"
+                        ? Number.parseInt(event.target.value, 10)
+                        : property.type === "number"
+                          ? Number(event.target.value)
+                          : event.target.value,
+                    )
                   }
                   className="mt-1 w-full rounded-lg border border-border bg-surface p-2.5 text-foreground"
                 />
               )}
-              {property.help && (
-                <span className="mt-1 block text-[10px]">{property.help}</span>
+              {(property.help || property.description) && (
+                <span className="mt-1 block text-[10px]">
+                  {property.help ?? property.description}
+                </span>
               )}
             </label>
           ))}

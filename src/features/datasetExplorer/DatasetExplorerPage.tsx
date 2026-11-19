@@ -8,8 +8,25 @@ import { ExplorerToolbar } from "./ExplorerToolbar";
 import { explorerState } from "./explorerSearchParams";
 import { QualityTimeline } from "./QualityTimeline";
 import { datasetExplorerQueries } from "./queries";
+import { getDatasetVersion } from "../../api/datasets";
+import { Model2Dataset } from "../model2/Model2Dataset";
 
 export function DatasetExplorerPage() {
+  const [params] = useSearchParams();
+  const state = explorerState(params);
+  const version = useQuery({
+    queryKey: ["dataset-version", state.versionId],
+    queryFn: () => getDatasetVersion(state.versionId!),
+    enabled: Boolean(state.versionId),
+  });
+  if (version.data?.capabilities.model2_bundle_v3)
+    return <Model2Dataset versionId={version.data.id} />;
+  if (state.versionId && !version.data && !version.error)
+    return <p role="status">Loading dataset…</p>;
+  return <CandleDatasetExplorer />;
+}
+
+function CandleDatasetExplorer() {
   const [params, setParams] = useSearchParams();
   const state = explorerState(params);
   const profile = useQuery({

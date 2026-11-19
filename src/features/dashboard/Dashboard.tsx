@@ -74,6 +74,11 @@ export function Dashboard() {
 
   const runs = backtestsQuery.data?.items ?? [];
   const latestCompletedRun = latest.data?.items[0];
+  const financial =
+    latestCompletedRun?.unit === "INR" ||
+    ["OPTION_SPREAD_SIMULATION", "OPTION_PORTFOLIO_SIMULATION"].includes(
+      latestCompletedRun?.mode ?? "",
+    );
 
   const equityQuery = useQuery({
     queryKey: ["backtest-equity", latestCompletedRun?.id],
@@ -126,10 +131,13 @@ export function Dashboard() {
           unavailable.
         </p>
       )}
-      {latestCompletedRun?.mode === "OPTION_SPREAD_SIMULATION" && (
+      {financial && (
         <p role="note">
-          Historical INR estimates use option candle closes and slippage;
-          executable bid/ask prices are unavailable.
+          Historical INR estimates use{" "}
+          {latestCompletedRun?.mode === "OPTION_PORTFOLIO_SIMULATION"
+            ? "option candle opens, assumed margin"
+            : "option candle closes"}{" "}
+          and slippage; executable bid/ask prices are unavailable.
         </p>
       )}
       {/* Header Section */}
@@ -216,26 +224,24 @@ export function Dashboard() {
                 </CardTitle>
                 <CardDescription>
                   {latestCompletedRun?.id
-                    ? `Run #${latestCompletedRun.id.slice(0, 8)} • Chronological performance`
+                    ? `Run #${latestCompletedRun.id.slice(0, 8)} • Selected research result; scenarios and repeated runs are not combined`
                     : "No completed runs yet"}
                 </CardDescription>
               </div>
               <Badge
                 variant="outline"
                 className={
-                  latestCompletedRun?.mode === "OPTION_SPREAD_SIMULATION"
+                  financial
                     ? "bg-success/10 text-success border-success/30"
                     : "bg-brand/10 text-brand border-brand/20"
                 }
               >
                 <span
                   className={`h-2 w-2 rounded-full mr-2 animate-pulse ${
-                    latestCompletedRun?.mode === "OPTION_SPREAD_SIMULATION"
-                      ? "bg-success"
-                      : "bg-brand"
+                    financial ? "bg-success" : "bg-brand"
                   }`}
                 />
-                {latestCompletedRun?.mode === "OPTION_SPREAD_SIMULATION"
+                {financial
                   ? "INR (₹)"
                   : latestCompletedRun?.unit || "DEMO_UNITS"}
               </Badge>
@@ -300,10 +306,7 @@ export function Dashboard() {
                                 <span className="text-brand mr-2">●</span>
                                 {formatCurrency(
                                   payload[0].value,
-                                  latestCompletedRun?.mode ===
-                                    "OPTION_SPREAD_SIMULATION"
-                                    ? "INR"
-                                    : "DEMO",
+                                  financial ? "INR" : "DEMO",
                                 )}
                               </p>
                             </div>
